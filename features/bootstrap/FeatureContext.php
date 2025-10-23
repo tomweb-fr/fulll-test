@@ -7,6 +7,10 @@ use Fulll\App\Calculator;
 use Behat\Step\Given;
 use Behat\Step\When;
 use Behat\Step\Then;
+use Fulll\Infra\InMemory\FleetRepositoryInMemory;
+use Fulll\App\Handler\RegisterVehicleHandler;
+use Fulll\App\Command\RegisterVehicle;
+use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 
 class FeatureContext implements Context
 {
@@ -17,6 +21,9 @@ class FeatureContext implements Context
     private ?array $location;
     private ?string $lastException;
 
+    private ?FleetRepositoryInMemory $repo;
+    private ?RegisterVehicleHandler $registerVehicleHandler;
+
     public function __construct()
     {
         $this->fleet = [];
@@ -25,6 +32,9 @@ class FeatureContext implements Context
         $this->location = null;
         $this->vehicleId = '';
         $this->lastException = null;
+
+        $this->repo = new FleetRepositoryInMemory();
+        $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
     }
 
     #[When('I multiply :a by :b into :var')]
@@ -69,6 +79,12 @@ class FeatureContext implements Context
     #[Given('I have registered this vehicle into my fleet')]
     public function iHaveRegisteredThisVehicleIntoMyFleet(): void
     {
+        if ($this->registerVehicleHandler !== null) {
+            ($this->registerVehicleHandler)(new RegisterVehicle('my-fleet', $this->vehicleId));
+            $this->fleet[$this->vehicleId] = true;
+            return;
+        }
+
         $this->registerVehicleIntoFleet($this->fleet);
     }
 
@@ -84,6 +100,12 @@ class FeatureContext implements Context
     #[Given('this vehicle has been registered into the other user\'s fleet')]
     public function thisVehicleHasBeenRegisteredIntoTheOtherUsersFleet(): void
     {
+        if ($this->registerVehicleHandler !== null) {
+            ($this->registerVehicleHandler)(new RegisterVehicle('other-fleet', $this->vehicleId));
+            $this->otherFleet[$this->vehicleId] = true;
+            return;
+        }
+
         $this->registerVehicleIntoFleet($this->otherFleet);
     }
 
@@ -91,8 +113,18 @@ class FeatureContext implements Context
     public function iRegisterThisVehicleIntoMyFleet(): void
     {
         try {
-            $this->registerVehicleIntoFleet($this->fleet);
+            if ($this->registerVehicleHandler !== null) {
+                ($this->registerVehicleHandler)(new RegisterVehicle('my-fleet', $this->vehicleId));
+                $this->fleet[$this->vehicleId] = true;
+            } else {
+                $this->registerVehicleIntoFleet($this->fleet);
+            }
         } catch (\Exception $e) {
+            if ($e instanceof VehicleAlreadyRegisteredException || str_contains($e->getMessage(), 'already registered')) {
+                $this->lastException = 'vehicle-already-registered';
+                return;
+            }
+
             $this->lastException = $e->getMessage();
         }
     }
@@ -117,7 +149,7 @@ class FeatureContext implements Context
     /**
      * @throws Exception
      */
-    #[Then('I should be informed this this vehicle has already been registered into my fleet')]
+    #[Then('I should be informed if this vehicle has already been registered into my fleet')]
     public function iShouldBeInformedThisVehicleIsAlreadyRegistered(): void
     {
         if ($this->lastException !== 'vehicle-already-registered') {
@@ -189,6 +221,7 @@ class FeatureContext implements Context
         if (isset($fleet[$this->vehicleId])) {
             throw new \Exception('vehicle-already-registered');
         }
+
         $fleet[$this->vehicleId] = true;
     }
 
