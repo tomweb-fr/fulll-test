@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Fulll\Domain\Exception;
 
-final class VehicleAlreadyParkedAtLocationException extends \RuntimeException
+final class VehicleAlreadyParkedAtLocationException extends \DomainException
 {
 }
