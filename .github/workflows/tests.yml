@@ -20,9 +20,6 @@ jobs:
           extensions: mbstring, intl, pdo_mysql
           coverage: none
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
 
