@@ -8,10 +8,12 @@ use Fulll\App\Calculator;
 use Behat\Step\Given;
 use Behat\Step\When;
 use Behat\Step\Then;
+use Fulll\App\Command\CreateFleet;
+use Fulll\App\CommandHandler\CreateFleetHandler;
 use Fulll\Infra\InMemory\FleetRepositoryInMemory;
-use Fulll\App\Handler\RegisterVehicleHandler;
+use Fulll\App\CommandHandler\RegisterVehicleHandler;
 use Fulll\App\Command\RegisterVehicle;
-use Fulll\App\Handler\ParkVehicleHandler;
+use Fulll\App\CommandHandler\ParkVehicleHandler;
 use Fulll\App\Command\ParkVehicle;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 use Fulll\Domain\Exception\VehicleNotRegisteredException;
@@ -22,6 +24,8 @@ use Fulll\Domain\ValueObject\Location;
 
 class FeatureContext implements Context
 {
+    private const MY_FLEET = 'my-fleet';
+    private const OTHER_FLEET = 'other-fleet';
     private array $fleet;
     private array $otherFleet;
     private string $vehicleId;
@@ -32,6 +36,7 @@ class FeatureContext implements Context
     private ?FleetRepositoryInMemory $repo;
     private ?RegisterVehicleHandler $registerVehicleHandler;
     private ?ParkVehicleHandler $parkVehicleHandler;
+    private ?CreateFleetHandler $createFleetHandler;
 
     public function __construct()
     {
@@ -45,6 +50,7 @@ class FeatureContext implements Context
         $this->repo = new FleetRepositoryInMemory();
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
         $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
+        $this->createFleetHandler = new CreateFleetHandler($this->repo);
     }
 
     #[BeforeScenario]
@@ -62,6 +68,14 @@ class FeatureContext implements Context
         } else {
             $this->repo = new FleetRepositoryInMemory();
         }
+
+        try {
+            ($this->createFleetHandler)(new CreateFleet(FleetId::fromString(self::MY_FLEET)));
+        } catch (\RuntimeException $e) {}
+
+        try {
+            ($this->createFleetHandler)(new CreateFleet(FleetId::fromString(self::OTHER_FLEET)));
+        } catch (\RuntimeException $e) {}
 
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
         $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
@@ -111,7 +125,7 @@ class FeatureContext implements Context
     {
         if ($this->registerVehicleHandler !== null) {
             ($this->registerVehicleHandler)(new RegisterVehicle(
-                FleetId::fromString('my-fleet'),
+                FleetId::fromString(self::MY_FLEET),
                 VehicleId::fromString($this->vehicleId)
             ));
             $this->fleet[$this->vehicleId] = true;
@@ -135,7 +149,7 @@ class FeatureContext implements Context
     {
         if ($this->registerVehicleHandler !== null) {
             ($this->registerVehicleHandler)(new RegisterVehicle(
-                FleetId::fromString('other-fleet'),
+                FleetId::fromString(self::OTHER_FLEET),
                 VehicleId::fromString($this->vehicleId)
             ));
             $this->otherFleet[$this->vehicleId] = true;
@@ -151,7 +165,7 @@ class FeatureContext implements Context
         try {
             if ($this->registerVehicleHandler !== null) {
                 ($this->registerVehicleHandler)(new RegisterVehicle(
-                    FleetId::fromString('my-fleet'),
+                    FleetId::fromString(self::MY_FLEET),
                     VehicleId::fromString($this->vehicleId)
                 ));
                 $this->fleet[$this->vehicleId] = true;
@@ -279,7 +293,7 @@ class FeatureContext implements Context
             }
 
             $command = new ParkVehicle(
-                FleetId::fromString('my-fleet'),
+                FleetId::fromString(self::MY_FLEET),
                 VehicleId::fromString($this->vehicleId),
                 new Location($this->location['lat'], $this->location['lon'])
             );
