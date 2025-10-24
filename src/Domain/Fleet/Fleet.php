@@ -4,39 +4,38 @@ declare(strict_types=1);
 
 namespace Fulll\Domain\Fleet;
 
-use Fulll\Domain\Vehicle\VehicleId;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
+use Fulll\Domain\Vehicle\VehicleId;
 
 final class Fleet
 {
-    private string $id;
-    private array $vehicles = [];
+    public function __construct(
+        private FleetId $id,
+        private array $vehicles = []
+    ){}
 
-    public function __construct(string $id)
-    {
-        if (trim($id) === '') {
-            throw new \InvalidArgumentException('Fleet id cannot be empty.');
-        }
-        $this->id = $id;
-    }
-
-    public function id(): string
+    public function id(): FleetId
     {
         return $this->id;
     }
 
-    public function registerVehicle(VehicleId $vehicle): void
+    public function registerVehicle(VehicleId $vehicleId): void
     {
-        $key = (string) $vehicle;
+        $key = (string) $vehicleId;
         if (isset($this->vehicles[$key])) {
-            throw new VehicleAlreadyRegisteredException(sprintf('Vehicle %s already registered in fleet %s', $key, $this->id));
+            throw new VehicleAlreadyRegisteredException(sprintf(
+                'Vehicle %s already registered in fleet %s',
+                $key,
+                (string) $this->id
+            ));
         }
-        $this->vehicles[$key] = true;
+
+        $this->vehicles[$key] = $vehicleId;
     }
 
-    public function hasVehicle(VehicleId $vehicle): bool
+    public function hasVehicle(VehicleId $vehicleId): bool
     {
-        return isset($this->vehicles[(string) $vehicle]);
+        return isset($this->vehicles[(string) $vehicleId]);
     }
 
     /**
@@ -44,6 +43,6 @@ final class Fleet
      */
     public function vehicles(): array
     {
-        return array_map(fn(string $id) => VehicleId::fromString($id), array_keys($this->vehicles));
+        return array_values($this->vehicles);
     }
 }

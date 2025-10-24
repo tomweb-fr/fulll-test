@@ -9,14 +9,10 @@ use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 
 final class Vehicle
 {
-    private VehicleId $id;
-    private ?Location $location = null;
-
-    public function __construct(VehicleId $id, ?Location $location = null)
-    {
-        $this->id = $id;
-        $this->location = $location;
-    }
+    public function __construct(
+        private VehicleId $id,
+        private ?Location $location = null
+    ){}
 
     public function id(): VehicleId
     {
