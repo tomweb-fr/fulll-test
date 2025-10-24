@@ -21,4 +21,9 @@ final class FleetRepositoryInMemory implements FleetRepositoryInterface
     {
         return $this->fleets[(string) $fleetId] ?? null;
     }
+
+    public function clear(): void
+    {
+        $this->fleets = [];
+    }
 }

@@ -11,12 +11,11 @@ final class FleetId
 
     public static function fromString(string $id): self
     {
+        $id = trim($id);
+        if ($id === '') {
+            throw new \InvalidArgumentException('Fleet id cannot be empty.');
+        }
         return new self($id);
-    }
-
-    public static function generate(string $prefix = 'fleet-'): self
-    {
-        return new self($prefix . uniqid());
     }
 
     public function equals(self $other): bool

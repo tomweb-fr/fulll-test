@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Behat\Behat\Context\Context;
+use Behat\Hook\BeforeScenario;
 use Fulll\App\Calculator;
 use Behat\Step\Given;
 use Behat\Step\When;
@@ -36,6 +37,25 @@ class FeatureContext implements Context
         $this->lastException = null;
 
         $this->repo = new FleetRepositoryInMemory();
+        $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
+    }
+
+    #[BeforeScenario]
+    public function beforeScenario(): void
+    {
+        $this->fleet = [];
+        $this->otherFleet = [];
+        $this->parkings = [];
+        $this->location = null;
+        $this->vehicleId = '';
+        $this->lastException = null;
+
+        if ($this->repo instanceof FleetRepositoryInMemory) {
+            $this->repo->clear();
+        } else {
+            $this->repo = new FleetRepositoryInMemory();
+        }
+
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
     }
 

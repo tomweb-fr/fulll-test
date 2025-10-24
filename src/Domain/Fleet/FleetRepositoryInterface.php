@@ -8,4 +8,6 @@ interface FleetRepositoryInterface
 {
     public function save(Fleet $fleet): void;
     public function find(FleetId $fleetId): ?Fleet;
+    public function clear(): void;
+
 }
