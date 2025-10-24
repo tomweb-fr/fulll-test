@@ -11,9 +11,14 @@ use Behat\Step\Then;
 use Fulll\Infra\InMemory\FleetRepositoryInMemory;
 use Fulll\App\Handler\RegisterVehicleHandler;
 use Fulll\App\Command\RegisterVehicle;
+use Fulll\App\Handler\ParkVehicleHandler;
+use Fulll\App\Command\ParkVehicle;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
+use Fulll\Domain\Exception\VehicleNotRegisteredException;
+use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Fleet\FleetId;
 use Fulll\Domain\Vehicle\VehicleId;
+use Fulll\Domain\ValueObject\Location;
 
 class FeatureContext implements Context
 {
@@ -26,6 +31,7 @@ class FeatureContext implements Context
 
     private ?FleetRepositoryInMemory $repo;
     private ?RegisterVehicleHandler $registerVehicleHandler;
+    private ?ParkVehicleHandler $parkVehicleHandler;
 
     public function __construct()
     {
@@ -38,6 +44,7 @@ class FeatureContext implements Context
 
         $this->repo = new FleetRepositoryInMemory();
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
+        $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
     }
 
     #[BeforeScenario]
@@ -57,6 +64,7 @@ class FeatureContext implements Context
         }
 
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
+        $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
     }
 
     #[When('I multiply :a by :b into :var')]
@@ -208,6 +216,10 @@ class FeatureContext implements Context
     {
         try {
             $this->parkVehicleAtLocation();
+        } catch (VehicleNotRegisteredException $e) {
+            $this->lastException = 'vehicle-not-registered';
+        } catch (VehicleAlreadyParkedAtLocationException $e) {
+            $this->lastException = 'vehicle-already-parked-at-location';
         } catch (\Exception $e) {
             $this->lastException = $e->getMessage();
         }
@@ -261,6 +273,30 @@ class FeatureContext implements Context
      */
     private function parkVehicleAtLocation(): void
     {
+        if ($this->parkVehicleHandler !== null) {
+            if ($this->location === null) {
+                throw new \Exception('no-location-defined');
+            }
+
+            $command = new ParkVehicle(
+                FleetId::fromString('my-fleet'),
+                VehicleId::fromString($this->vehicleId),
+                new Location($this->location['lat'], $this->location['lon'])
+            );
+
+            try {
+                ($this->parkVehicleHandler)($command);
+                $this->parkings[$this->vehicleId] = $this->location;
+                return;
+            } catch (VehicleNotRegisteredException $e) {
+                $this->lastException = 'vehicle-not-registered';
+                throw $e;
+            } catch (VehicleAlreadyParkedAtLocationException $e) {
+                $this->lastException = 'vehicle-already-parked-at-location';
+                throw $e;
+            }
+        }
+
         if (!$this->isVehicleRegisteredAnywhere()) {
             throw new \Exception('vehicle-not-registered');
         }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Handler;
+namespace Tests\App\Handler;
 
-use PHPUnit\Framework\TestCase;
-use Fulll\Infra\InMemory\FleetRepositoryInMemory;
-use Fulll\App\Handler\RegisterVehicleHandler;
 use Fulll\App\Command\RegisterVehicle;
+use Fulll\App\Handler\RegisterVehicleHandler;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 use Fulll\Domain\Fleet\FleetId;
 use Fulll\Domain\Vehicle\VehicleId;
+use Fulll\Infra\InMemory\FleetRepositoryInMemory;
+use PHPUnit\Framework\TestCase;
 
 final class RegisterVehicleHandlerTest extends TestCase
 {
