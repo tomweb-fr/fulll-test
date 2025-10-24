@@ -16,7 +16,7 @@ final readonly class RegisterVehicleHandler
     public function __invoke(RegisterVehicle $cmd): void
     {
         $fleet = $this->repo->find($cmd->fleetId) ?? new Fleet($cmd->fleetId);
-        $fleet->registerVehicle(VehicleId::fromString($cmd->vehicleId));
+        $fleet->registerVehicle($cmd->vehicleId);
         $this->repo->save($fleet);
     }
 }

@@ -11,6 +11,8 @@ use Fulll\Infra\InMemory\FleetRepositoryInMemory;
 use Fulll\App\Handler\RegisterVehicleHandler;
 use Fulll\App\Command\RegisterVehicle;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
+use Fulll\Domain\Fleet\FleetId;
+use Fulll\Domain\Vehicle\VehicleId;
 
 class FeatureContext implements Context
 {
@@ -80,7 +82,10 @@ class FeatureContext implements Context
     public function iHaveRegisteredThisVehicleIntoMyFleet(): void
     {
         if ($this->registerVehicleHandler !== null) {
-            ($this->registerVehicleHandler)(new RegisterVehicle('my-fleet', $this->vehicleId));
+            ($this->registerVehicleHandler)(new RegisterVehicle(
+                FleetId::fromString('my-fleet'),
+                VehicleId::fromString($this->vehicleId)
+            ));
             $this->fleet[$this->vehicleId] = true;
             return;
         }
@@ -101,7 +106,10 @@ class FeatureContext implements Context
     public function thisVehicleHasBeenRegisteredIntoTheOtherUsersFleet(): void
     {
         if ($this->registerVehicleHandler !== null) {
-            ($this->registerVehicleHandler)(new RegisterVehicle('other-fleet', $this->vehicleId));
+            ($this->registerVehicleHandler)(new RegisterVehicle(
+                FleetId::fromString('other-fleet'),
+                VehicleId::fromString($this->vehicleId)
+            ));
             $this->otherFleet[$this->vehicleId] = true;
             return;
         }
@@ -114,7 +122,10 @@ class FeatureContext implements Context
     {
         try {
             if ($this->registerVehicleHandler !== null) {
-                ($this->registerVehicleHandler)(new RegisterVehicle('my-fleet', $this->vehicleId));
+                ($this->registerVehicleHandler)(new RegisterVehicle(
+                    FleetId::fromString('my-fleet'),
+                    VehicleId::fromString($this->vehicleId)
+                ));
                 $this->fleet[$this->vehicleId] = true;
             } else {
                 $this->registerVehicleIntoFleet($this->fleet);
