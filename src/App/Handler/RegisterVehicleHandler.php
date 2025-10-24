@@ -7,7 +7,6 @@ namespace Fulll\App\Handler;
 use Fulll\App\Command\RegisterVehicle;
 use Fulll\Domain\Fleet\FleetRepositoryInterface;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Vehicle\VehicleId;
 
 final readonly class RegisterVehicleHandler
 {

@@ -21,16 +21,11 @@ final class Fleet
 
     public function registerVehicle(VehicleId $vehicleId): void
     {
-        $key = (string) $vehicleId;
-        if (isset($this->vehicles[$key])) {
-            throw new VehicleAlreadyRegisteredException(sprintf(
-                'Vehicle %s already registered in fleet %s',
-                $key,
-                (string) $this->id
-            ));
+        if ($this->hasVehicle($vehicleId)) {
+            throw new VehicleAlreadyRegisteredException((string) $vehicleId);
         }
 
-        $this->vehicles[$key] = $vehicleId;
+        $this->vehicles[(string) $vehicleId] = $vehicleId;
     }
 
     public function hasVehicle(VehicleId $vehicleId): bool
