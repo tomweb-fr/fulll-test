@@ -6,7 +6,7 @@ namespace Tests\App\Handler;
 
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
-use Fulll\App\Handler\ParkVehicleHandler;
+use Fulll\App\CommandHandler\ParkVehicleHandler;
 use Fulll\App\Command\ParkVehicle;
 use Fulll\Domain\Fleet\FleetRepositoryInterface;
 use Fulll\Domain\Fleet\Fleet;
