@@ -1,0 +1,16 @@
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+    driver: 'pdo_mysql'
+    charset: utf8mb4
+
+  orm:
+    entity_managers:
+      default:
+        mappings:
+          FulllInfraDoctrine:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Infra/Doctrine/Entity'
+            prefix: 'Fulll\Infra\Doctrine\Entity'
+            alias: FulllInfraDoctrine

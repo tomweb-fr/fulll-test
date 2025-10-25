@@ -6,7 +6,12 @@
     "behat/behat": "*",
     "symfony/messenger": "^7.3",
     "symfony/console": "^7.3",
-    "symfony/framework-bundle": "^7.3"
+    "symfony/framework-bundle": "^7.3",
+    "doctrine/orm": "^3.5",
+    "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/migrations": "^3.9",
+    "doctrine/doctrine-migrations-bundle": "^3.5",
+    "symfony/dotenv": "^7.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.4"

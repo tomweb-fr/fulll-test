@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 use Fulll\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $env = $_SERVER['APP_ENV'] ?? 'dev';
 $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
+
+$dotenv = new Dotenv();
+$dotenv->bootEnv(dirname(__DIR__).'/.env');
 
 $kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
