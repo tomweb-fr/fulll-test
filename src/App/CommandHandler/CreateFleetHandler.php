@@ -6,10 +6,10 @@ namespace Fulll\App\CommandHandler;
 
 use Fulll\App\Command\CreateFleet;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\ValueObject\FleetId;
 
-final class CreateFleetHandler
+final readonly class CreateFleetHandler
 {
     public function __construct(private FleetRepositoryInterface $repo) {}
 

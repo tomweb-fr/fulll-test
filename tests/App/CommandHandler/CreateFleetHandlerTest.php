@@ -7,7 +7,7 @@ namespace Fulll\Tests\App\CommandHandler;
 use Fulll\App\Command\CreateFleet;
 use Fulll\App\CommandHandler\CreateFleetHandler;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\ValueObject\FleetId;
 use PHPUnit\Framework\TestCase;
 

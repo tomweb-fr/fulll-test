@@ -6,7 +6,7 @@ namespace Fulll\App\Command;
 
 use Fulll\Domain\ValueObject\FleetId;
 
-final class CreateFleet
+final readonly class CreateFleet
 {
-    public function __construct(public readonly FleetId $fleetId) {}
+    public function __construct(public FleetId $fleetId) {}
 }

@@ -8,7 +8,7 @@ use Fulll\App\Command\ParkVehicle;
 use Fulll\App\CommandHandler\ParkVehicleHandler;
 use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\ValueObject\FleetId;
 use Fulll\Domain\ValueObject\Location;
 use Fulll\Domain\ValueObject\VehicleId;
