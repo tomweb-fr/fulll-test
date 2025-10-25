@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\App\Handler;
 
-use PHPUnit\Framework\TestCase;
-use Fulll\App\CommandHandler\RegisterVehicleHandler;
-use Fulll\Infra\InMemory\FleetRepositoryInMemory;
-use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetId;
-use Fulll\Domain\Vehicle\VehicleId;
 use Fulll\App\Command\RegisterVehicle;
+use Fulll\App\CommandHandler\RegisterVehicleHandler;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
+use Fulll\Domain\Fleet\Fleet;
+use Fulll\Domain\ValueObject\FleetId;
+use Fulll\Domain\ValueObject\VehicleId;
+use Fulll\Infra\InMemory\FleetRepositoryInMemory;
+use PHPUnit\Framework\TestCase;
 
 final class RegisterVehicleHandlerTest extends TestCase
 {

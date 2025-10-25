@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Fulll\App\Command;
 
-use Fulll\Domain\Fleet\FleetId;
+use Fulll\Domain\ValueObject\FleetId;
 
 final class CreateFleet
 {

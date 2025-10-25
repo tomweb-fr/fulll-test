@@ -4,11 +4,11 @@ namespace Tests\Domain\Fleet;
 
 use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Exception\VehicleNotRegisteredException;
-use Fulll\Domain\ValueObject\Location;
-use PHPUnit\Framework\TestCase;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetId;
-use Fulll\Domain\Vehicle\VehicleId;
+use Fulll\Domain\ValueObject\FleetId;
+use Fulll\Domain\ValueObject\Location;
+use Fulll\Domain\ValueObject\VehicleId;
+use PHPUnit\Framework\TestCase;
 
 final class FleetTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fulll\Domain\Vehicle;
+namespace Fulll\Domain\ValueObject;
 
 final class VehicleId
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Fulll\Tests\App\CommandHandler;
 
-use PHPUnit\Framework\TestCase;
-use Fulll\App\CommandHandler\CreateFleetHandler;
 use Fulll\App\Command\CreateFleet;
-use Fulll\Domain\Fleet\FleetId;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\App\CommandHandler\CreateFleetHandler;
 use Fulll\Domain\Fleet\Fleet;
+use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\ValueObject\FleetId;
+use PHPUnit\Framework\TestCase;
 
 final class CreateFleetHandlerTest extends TestCase
 {

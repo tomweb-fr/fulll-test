@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Fulll\App\CommandHandler;
 
 use Fulll\App\Command\CreateFleet;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetId;
+use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\ValueObject\FleetId;
 
 final class CreateFleetHandler
 {

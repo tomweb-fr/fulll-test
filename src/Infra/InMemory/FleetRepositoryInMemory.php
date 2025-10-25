@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Fulll\Infra\InMemory;
 
 use Fulll\Domain\Fleet\Fleet;
-use Fulll\Domain\Fleet\FleetId;
 use Fulll\Domain\Fleet\FleetRepositoryInterface;
+use Fulll\Domain\ValueObject\FleetId;
 
 final class FleetRepositoryInMemory implements FleetRepositoryInterface
 {
