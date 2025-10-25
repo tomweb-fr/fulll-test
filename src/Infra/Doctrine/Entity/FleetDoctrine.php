@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 final class FleetDoctrine
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 128)]
+    #[ORM\Column(type: 'string', length: 128, unique: true)]
     private string $id;
 
     /** @var array<string> */
