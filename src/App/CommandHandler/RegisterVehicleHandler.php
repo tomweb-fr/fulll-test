@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Fulll\App\CommandHandler;
 
 use Fulll\App\Command\RegisterVehicle;
-use Fulll\Domain\Fleet\FleetRepositoryInterface;
 use Fulll\Domain\Exception\FleetNotFoundException;
+use Fulll\Domain\Repository\FleetRepositoryInterface;
 
-final class RegisterVehicleHandler
+final readonly class RegisterVehicleHandler
 {
     public function __construct(private FleetRepositoryInterface $repo) {}
 

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Fulll\Domain\Fleet;
+namespace Fulll\Domain\Repository;
 
+use Fulll\Domain\Fleet\Fleet;
 use Fulll\Domain\ValueObject\FleetId;
 
 interface FleetRepositoryInterface
