@@ -1,0 +1,3 @@
+doctrine_migrations:
+  migrations_paths:
+    'Fulll\Infra\Doctrine\Migrations': '%kernel.project_dir%/src/Infra/Doctrine/Migrations'

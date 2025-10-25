@@ -11,3 +11,14 @@ services:
   Fulll\App\CommandHandler\:
     resource: '../src/App/CommandHandler'
     tags: ['messenger.message_handler']
+
+  Fulll\Infra\Doctrine\FleetRepositoryDoctrine:
+    autowire: true
+    autoconfigure: true
+    public: false
+    arguments:
+      $em: '@doctrine.orm.entity_manager'
+
+  Fulll\Domain\Repository\FleetRepositoryInterface:
+    alias: Fulll\Infra\Doctrine\FleetRepositoryDoctrine
+    public: false
