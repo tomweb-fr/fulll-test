@@ -7,7 +7,9 @@ namespace Fulll\App\QueryHandler;
 use Fulll\App\Query\GetFleetQuery;
 use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\Fleet\Fleet;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final readonly class GetFleetQueryHandler implements QueryHandlerInterface
 {
     public function __construct(private FleetRepositoryInterface $fleetRepository) {}
@@ -18,11 +20,11 @@ final readonly class GetFleetQueryHandler implements QueryHandlerInterface
             throw new \InvalidArgumentException('Expected ' . GetFleetQuery::class);
         }
 
-        return $this->fleetRepository->find($query->fleetId());
+        return $this->__invoke($query);
     }
 
-    public function __invoke(object $query): ?Fleet
+    public function __invoke(GetFleetQuery $query): ?Fleet
     {
-        return $this->handle($query);
+        return $this->fleetRepository->find($query->fleetId());
     }
 }

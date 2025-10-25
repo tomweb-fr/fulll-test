@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Fulll\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests}'
+
+  Fulll\App\CommandHandler\:
+    resource: '../src/App/CommandHandler'
+    tags: ['messenger.message_handler']

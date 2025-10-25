@@ -8,7 +8,9 @@ use Fulll\App\Command\CreateFleet;
 use Fulll\Domain\Fleet\Fleet;
 use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\ValueObject\FleetId;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final readonly class CreateFleetHandler
 {
     public function __construct(private FleetRepositoryInterface $repo) {}

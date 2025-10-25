@@ -1,0 +1,14 @@
+framework:
+  messenger:
+    default_bus: messenger.bus.commands
+    buses:
+      messenger.bus.commands: ~
+
+    transports:
+      sync: 'sync://'
+
+    routing:
+      'Fulll\App\Command\CreateFleet': sync
+      'Fulll\App\Command\RegisterVehicle': sync
+      'Fulll\App\Command\ParkVehicle': sync
+      'Fulll\App\Query\GetFleetQuery': sync
