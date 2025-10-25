@@ -15,9 +15,9 @@ services:
   Fulll\Infra\Doctrine\FleetRepositoryDoctrine:
     autowire: true
     autoconfigure: true
-    public: false
     arguments:
       $em: '@doctrine.orm.entity_manager'
+      $env: '%kernel.environment%'
 
   Fulll\Domain\Repository\FleetRepositoryInterface:
     alias: Fulll\Infra\Doctrine\FleetRepositoryDoctrine
