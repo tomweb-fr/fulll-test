@@ -7,8 +7,9 @@ namespace Fulll\Domain\Fleet;
 use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 use Fulll\Domain\Exception\VehicleNotRegisteredException;
+use Fulll\Domain\ValueObject\FleetId;
 use Fulll\Domain\ValueObject\Location;
-use Fulll\Domain\Vehicle\VehicleId;
+use Fulll\Domain\ValueObject\VehicleId;
 
 final class Fleet
 {

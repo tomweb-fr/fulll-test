@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 use Behat\Behat\Context\Context;
 use Behat\Hook\BeforeScenario;
-use Fulll\App\Calculator;
 use Behat\Step\Given;
-use Behat\Step\When;
 use Behat\Step\Then;
+use Behat\Step\When;
+use Fulll\App\Calculator;
 use Fulll\App\Command\CreateFleet;
-use Fulll\App\CommandHandler\CreateFleetHandler;
-use Fulll\Infra\InMemory\FleetRepositoryInMemory;
-use Fulll\App\CommandHandler\RegisterVehicleHandler;
-use Fulll\App\Command\RegisterVehicle;
-use Fulll\App\CommandHandler\ParkVehicleHandler;
 use Fulll\App\Command\ParkVehicle;
+use Fulll\App\Command\RegisterVehicle;
+use Fulll\App\CommandHandler\CreateFleetHandler;
+use Fulll\App\CommandHandler\ParkVehicleHandler;
+use Fulll\App\CommandHandler\RegisterVehicleHandler;
+use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 use Fulll\Domain\Exception\VehicleNotRegisteredException;
-use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
-use Fulll\Domain\Fleet\FleetId;
-use Fulll\Domain\Vehicle\VehicleId;
+use Fulll\Domain\ValueObject\FleetId;
 use Fulll\Domain\ValueObject\Location;
+use Fulll\Domain\ValueObject\VehicleId;
+use Fulll\Infra\InMemory\FleetRepositoryInMemory;
 
 class FeatureContext implements Context
 {
