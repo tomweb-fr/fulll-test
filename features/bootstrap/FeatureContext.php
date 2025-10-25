@@ -14,9 +14,12 @@ use Fulll\App\Command\RegisterVehicle;
 use Fulll\App\CommandHandler\CreateFleetHandler;
 use Fulll\App\CommandHandler\ParkVehicleHandler;
 use Fulll\App\CommandHandler\RegisterVehicleHandler;
+use Fulll\App\Query\GetFleetQuery;
+use Fulll\App\QueryHandler\GetFleetQueryHandler;
 use Fulll\Domain\Exception\VehicleAlreadyParkedAtLocationException;
 use Fulll\Domain\Exception\VehicleAlreadyRegisteredException;
 use Fulll\Domain\Exception\VehicleNotRegisteredException;
+use Fulll\Domain\Fleet\Fleet;
 use Fulll\Domain\ValueObject\FleetId;
 use Fulll\Domain\ValueObject\Location;
 use Fulll\Domain\ValueObject\VehicleId;
@@ -37,6 +40,8 @@ class FeatureContext implements Context
     private ?RegisterVehicleHandler $registerVehicleHandler;
     private ?ParkVehicleHandler $parkVehicleHandler;
     private ?CreateFleetHandler $createFleetHandler;
+    private ?GetFleetQueryHandler $getFleetQueryHandler;
+    private ?Fleet $fetchedFleet;
 
     public function __construct()
     {
@@ -51,6 +56,9 @@ class FeatureContext implements Context
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
         $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
         $this->createFleetHandler = new CreateFleetHandler($this->repo);
+
+        $this->getFleetQueryHandler = new GetFleetQueryHandler($this->repo);
+        $this->fetchedFleet = null;
     }
 
     #[BeforeScenario]
@@ -79,6 +87,9 @@ class FeatureContext implements Context
 
         $this->registerVehicleHandler = new RegisterVehicleHandler($this->repo);
         $this->parkVehicleHandler = new ParkVehicleHandler($this->repo);
+
+        $this->getFleetQueryHandler = new GetFleetQueryHandler($this->repo);
+        $this->fetchedFleet = null;
     }
 
     #[When('I multiply :a by :b into :var')]
@@ -267,6 +278,32 @@ class FeatureContext implements Context
     {
         if ($this->lastException !== 'vehicle-already-parked-at-location') {
             throw new \Exception('expected vehicle-already-parked-at-location, got: ' . var_export($this->lastException, true));
+        }
+    }
+
+    #[When('I fetch fleet :id')]
+    public function iFetchFleet(string $id): void
+    {
+        $query = GetFleetQuery::fromString($id);
+        try {
+            $this->fetchedFleet = ($this->getFleetQueryHandler)($query);
+        } catch (\Exception $e) {
+            $this->lastException = $e->getMessage();
+            $this->fetchedFleet = null;
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Then('the fetched fleet should be returned')]
+    public function theFetchedFleetShouldBeReturned(): void
+    {
+        if ($this->fetchedFleet === null) {
+            throw new \Exception('no-fleet-fetched');
+        }
+        if (!$this->fetchedFleet instanceof Fleet) {
+            throw new \Exception('fetched-not-a-fleet');
         }
     }
 
