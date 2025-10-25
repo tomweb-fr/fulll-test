@@ -6,6 +6,7 @@ Feature: Park a vehicle
 
   Background:
     Given my fleet
+    When I fetch fleet "my-fleet"
     And a vehicle with id "v-park-1"
     And I have registered this vehicle into my fleet
 

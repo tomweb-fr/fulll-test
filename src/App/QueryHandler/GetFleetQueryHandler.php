@@ -20,4 +20,9 @@ final readonly class GetFleetQueryHandler implements QueryHandlerInterface
 
         return $this->fleetRepository->find($query->fleetId());
     }
+
+    public function __invoke(object $query): ?Fleet
+    {
+        return $this->handle($query);
+    }
 }
