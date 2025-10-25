@@ -11,6 +11,7 @@ use Fulll\Domain\Repository\FleetRepositoryInterface;
 use Fulll\Domain\ValueObject\FleetId;
 use Fulll\Infra\Doctrine\Entity\FleetDoctrine;
 use Fulll\Infra\Doctrine\Mapper\FleetDoctrineMapper;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 final readonly class FleetRepositoryDoctrine implements FleetRepositoryInterface
 {
@@ -41,15 +42,21 @@ final readonly class FleetRepositoryDoctrine implements FleetRepositoryInterface
         $this->em->getConnection()->beginTransaction();
         try {
             $existing = $this->em->getRepository(FleetDoctrine::class)->find($key);
-            if ($existing !== null) {
-                $this->em->getConnection()->rollBack();
-                throw new \RuntimeException('fleet-already-exists');
+            $entity = FleetDoctrineMapper::toEntity($fleet);
+
+            if ($existing === null) {
+                $this->em->persist($entity);
+            } else {
+                FleetDoctrineMapper::updateFromDomain($existing, $fleet);
             }
 
-            $entity = FleetDoctrineMapper::toEntity($fleet);
-            $this->em->persist($entity);
             $this->em->flush();
             $this->em->getConnection()->commit();
+        } catch (UniqueConstraintViolationException $e) {
+            if ($this->em->getConnection()->isTransactionActive()) {
+                $this->em->getConnection()->rollBack();
+            }
+            throw new \RuntimeException('fleet-already-exists');
         } catch (\Throwable $e) {
             if ($this->em->getConnection()->isTransactionActive()) {
                 $this->em->getConnection()->rollBack();
