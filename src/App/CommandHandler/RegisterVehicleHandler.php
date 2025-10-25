@@ -7,7 +7,9 @@ namespace Fulll\App\CommandHandler;
 use Fulll\App\Command\RegisterVehicle;
 use Fulll\Domain\Exception\FleetNotFoundException;
 use Fulll\Domain\Repository\FleetRepositoryInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final readonly class RegisterVehicleHandler
 {
     public function __construct(private FleetRepositoryInterface $repo) {}
