@@ -10,10 +10,10 @@ vendor/behat/behat/bin/behat
 ./vendor/bin/phpunit
 
 Usage :
-php bin/console create < ? my-fleet>
-php bin/console register-vehicle <fleetId> <vehiclePlateNumber>
-php bin/console localize-vehicle <fleetId> <vehiclePlateNumber> <lat> <lng>
-php bin/console dump-fleet-data <fleetId>
+- php bin/console create < ? my-fleet>
+- php bin/console register-vehicle <fleetId> <vehiclePlateNumber>
+- php bin/console localize-vehicle <fleetId> <vehiclePlateNumber> <lat> <lng>
+- php bin/console dump-fleet-data <fleetId>
 
 Improvesments to be done :
 - Refactoring code
