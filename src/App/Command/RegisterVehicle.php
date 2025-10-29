@@ -12,5 +12,6 @@ final readonly class RegisterVehicle
     public function __construct(
         public FleetId $fleetId,
         public VehicleId $vehicleId
-    ) {}
+    ) {
+    }
 }

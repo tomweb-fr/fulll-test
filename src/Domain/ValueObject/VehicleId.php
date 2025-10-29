@@ -6,7 +6,9 @@ namespace Fulll\Domain\ValueObject;
 
 final class VehicleId
 {
-    private function __construct(private readonly string $id) {}
+    private function __construct(private readonly string $id)
+    {
+    }
 
     public static function fromString(string $id): self
     {

@@ -10,7 +10,7 @@ use Fulll\Domain\Fleet\Fleet;
 use Fulll\Domain\Repository\FleetRepositoryInterface;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
-use \Fulll\Domain\ValueObject\FleetId;
+use Fulll\Domain\ValueObject\FleetId;
 
 final class GetFleetQueryHandlerTest extends TestCase
 {

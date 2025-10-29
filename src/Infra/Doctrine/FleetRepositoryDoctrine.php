@@ -18,7 +18,8 @@ final readonly class FleetRepositoryDoctrine implements FleetRepositoryInterface
     public function __construct(
         private EntityManagerInterface $em,
         private string                 $env
-    ) {}
+    ) {
+    }
 
     public function find(FleetId|string $id): ?Fleet
     {

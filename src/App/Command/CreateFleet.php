@@ -8,5 +8,7 @@ use Fulll\Domain\ValueObject\FleetId;
 
 final readonly class CreateFleet
 {
-    public function __construct(public FleetId $fleetId) {}
+    public function __construct(public FleetId $fleetId)
+    {
+    }
 }
