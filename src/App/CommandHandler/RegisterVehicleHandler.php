@@ -12,7 +12,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final readonly class RegisterVehicleHandler
 {
-    public function __construct(private FleetRepositoryInterface $repo) {}
+    public function __construct(private FleetRepositoryInterface $repo)
+    {
+    }
 
     public function __invoke(RegisterVehicle $command): void
     {

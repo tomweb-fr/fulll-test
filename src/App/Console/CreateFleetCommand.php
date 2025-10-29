@@ -16,7 +16,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'fleet:create')]
+#[AsCommand(name: 'create')]
 final class CreateFleetCommand extends Command
 {
     private MessageBusInterface $bus;

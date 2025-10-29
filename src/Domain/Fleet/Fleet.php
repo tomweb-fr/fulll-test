@@ -17,7 +17,8 @@ final class Fleet
         private FleetId $id,
         private array $vehicles = [],
         private array $locations = []
-    ){}
+    ) {
+    }
 
     public function id(): FleetId
     {

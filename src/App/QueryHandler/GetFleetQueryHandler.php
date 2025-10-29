@@ -12,7 +12,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final readonly class GetFleetQueryHandler implements QueryHandlerInterface
 {
-    public function __construct(private FleetRepositoryInterface $fleetRepository) {}
+    public function __construct(private FleetRepositoryInterface $fleetRepository)
+    {
+    }
 
     public function handle(object $query): ?Fleet
     {
